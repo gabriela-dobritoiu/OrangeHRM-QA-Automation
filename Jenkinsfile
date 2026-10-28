@@ -1,3 +1,4 @@
+
 pipeline {
     agent any
 
@@ -8,16 +9,21 @@ pipeline {
             }
         }
 
-        stage('Setup Python') {
+        stage('Check Python') {
             steps {
-                bat 'python --version'
-                bat 'python -m pip install -r requirements.txt'
+                sh 'python3 --version'
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                sh 'python3 -m pip install -r requirements.txt'
             }
         }
 
         stage('Run Login Test') {
             steps {
-                bat 'python -m pytest tests/test_login.py -v'
+                sh 'python3 -m pytest tests/test_login.py -v'
             }
         }
     }
