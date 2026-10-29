@@ -29,6 +29,14 @@ pipeline {
         always {
             junit testResults: 'reports/junit.xml', allowEmptyResults: true
             archiveArtifacts artifacts: 'reports/*.html,reports/*.xml', allowEmptyArchive: true
+            publishHTML(target: [
+                reportDir: 'reports',
+                reportFiles: 'report.html',
+                reportName: 'HTML Test Report',
+                keepAll: true,
+                alwaysLinkToLastBuild: true,
+                allowMissing: true
+            ])
         }
     }
 }
