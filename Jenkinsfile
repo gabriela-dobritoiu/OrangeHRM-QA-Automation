@@ -19,8 +19,16 @@ pipeline {
 
         stage('Run Login Test') {
             steps {
-                sh '.venv/bin/python -m pytest tests/test_login.py -v'
+                sh 'mkdir -p reports'
+                sh '.venv/bin/python -m pytest tests/test_login.py -v --junitxml=reports/junit.xml --html=reports/report.html --self-contained-html'
             }
+        }
+    }
+
+    post {
+        always {
+            junit testResults: 'reports/junit.xml', allowEmptyResults: true
+            archiveArtifacts artifacts: 'reports/*.html,reports/*.xml', allowEmptyArchive: true
         }
     }
 }
