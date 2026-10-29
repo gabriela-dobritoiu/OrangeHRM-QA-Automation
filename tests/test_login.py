@@ -6,14 +6,16 @@ from selenium.webdriver.chrome.options import Options
 def test_orangehrm_login_success():
     # Configuram browserul sa ruleze in fundal (Headless), ideal pentru Linux WSL
     chrome_options = Options()
-    # chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--headless")
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
     
     # Pornim browserul
     print("\nDeschidem browserul Chrome...")
-    driver = webdriver.Chrome(options=chrome_options)
-    
+    driver = webdriver.Remote(
+        command_executor="http://selenium-chrome:4444",
+        options=chrome_options
+    )    
     try:
         # 1. Navigam catre site
         print("Navigam catre OrangeHRM Live Demo...")
